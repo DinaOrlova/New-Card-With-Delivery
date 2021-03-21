@@ -1,5 +1,9 @@
 package ru.netology.web.test;
 
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.selenide.AllureSelenide;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
@@ -17,10 +21,18 @@ public class RegistrationTest {
         $("[data-test-id=date] input").sendKeys(Keys.chord(Keys.DELETE));
     }
 
+    @BeforeAll
+    static void setUpAll() {
+        SelenideLogger.addListener("allure", new AllureSelenide()); }
+
+
     @BeforeEach
     void setup() {
         open("http://localhost:9999/");
     }
+
+    @AfterAll
+    static void tearDownAll() { SelenideLogger.removeListener("allure"); }
 
     @Test
     void shouldTestWithoutRefreshPage() {
